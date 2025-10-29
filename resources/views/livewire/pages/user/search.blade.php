@@ -71,8 +71,8 @@
         <div id="detailed-pricing" class="w-full overflow-x-auto">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             </div>
-            <div class="overflow-hidden min-w-max">
-                <div class="grid grid-cols-3 p-4 text-sm font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <div class="overflow-hidden min-w-max mb-5">
+                <div class="grid grid-cols-4 p-4 text-sm font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                     <div class="flex items-center cursor-pointer" wire:click="sortBy('title')">
                         Title
                         <x-tables.header-direction field="title" :sortField="$sortField" :sortDirection="$sortDirection"/>
@@ -81,9 +81,15 @@
                         Artist
                         <x-tables.header-direction field="artist" :sortField="$sortField" :sortDirection="$sortDirection"/>
                     </div>
+                    <div class="cursor-pointer" wire:click="sortBy('ratings_avg_rating')">
+                        Rating
+                        <x-tables.header-direction field="ratings_avg_rating" :sortField="$sortField" :sortDirection="$sortDirection"/>
+                    </div>
+                    <div class="cursor-pointer" wire:click="sortBy('artist')">
+                    </div>
                 </div>
                 @foreach ($musics as $music)
-                    <div class="grid grid-cols-3 items-center px-4 py-5 text-sm text-gray-700 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-700">
+                    <div class="grid grid-cols-4 items-center px-4 py-5 text-sm text-gray-700 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-700">
             
                         <!-- Music Info -->
                         <div class="flex items-center space-x-3 text-gray-800 dark:text-gray-100">
@@ -98,6 +104,10 @@
                         <!-- Artist -->
                         <div class="text-gray-500 dark:text-gray-400 flex items-center">
                             {{ $music->artist }}
+                        </div>
+
+                        <div class="text-gray-500 dark:text-gray-400 flex items-center ml-10">
+                            {{ number_format($music->ratings_avg_rating, 2) }}
                         </div>
 
                         <!-- Actions -->
@@ -117,6 +127,7 @@
                     </div>
                 @endforeach
             </div>
+            {{ $musics->links() }}
         </div>
     @endif
 

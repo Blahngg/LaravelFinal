@@ -20,7 +20,7 @@ class PlaylistView extends Component
     use WithFileUploads;
     public $playlist;
     public $search = '';
-    public $sortField = 'created_at';
+    public $sortField = 'pivot_created_at';
     public $sortDirection = 'desc';
     public $showEditModal = false;
     public $image;
@@ -36,7 +36,7 @@ class PlaylistView extends Component
         $this->description = $playlist->description;
     }
 
-    public function updatingFilter()
+    public function updatingSearch()
     {
         $this->resetPage(); // reset pagination when filter changes
     }

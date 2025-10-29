@@ -27,7 +27,7 @@
                 <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" wire:model.live="search" >
             </div>
         </div>
-        <div class="overflow-hidden min-w-max">
+        <div class="overflow-hidden min-w-max mb-4">
             <div class="grid grid-cols-5 p-4 text-sm font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                 <div class="flex items-center cursor-pointer" wire:click="sortBy('title')">
                     Title
@@ -83,6 +83,7 @@
                 </div>
             @endforeach
         </div>
+        {{ $ratings->links() }}
     </div>
 
     @if ($showReviewModal)

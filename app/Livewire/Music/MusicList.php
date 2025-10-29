@@ -19,9 +19,9 @@ class MusicList extends Component
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 
-    public function updatingFilter()
+    public function updatingSearch()
     {
-        $this->resetPage(); // reset pagination when filter changes
+        $this->resetPage(); 
     }
 
     public function sortBy($field)

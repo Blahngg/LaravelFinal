@@ -24,6 +24,10 @@ class Search extends Component
     public $showSearchFilter = false;
     public $showSearchResults = false;
 
+    public function updatingSearch(){
+        $this->resetPage();
+    }
+
     public function toggleSearchFilter(){
         if($this->showSearchFilter){
             $this->showSearchFilter = false;
@@ -70,7 +74,8 @@ class Search extends Component
             });
         }
 
-        $musics = $musics->orderBy($this->sortField, $this->sortDirection)
+        $musics = $musics->withAvg('ratings', 'rating')
+                ->orderBy($this->sortField, $this->sortDirection)
                 ->paginate(10);
 
         return view('livewire.pages.user.search')

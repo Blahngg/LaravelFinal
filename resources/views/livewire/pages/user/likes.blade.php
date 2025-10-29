@@ -15,7 +15,7 @@
                 <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" wire:model.live="search" >
             </div>
         </div>
-        <div class="overflow-hidden min-w-max">
+        <div class="overflow-hidden min-w-max mb-4">
             <div class="grid grid-cols-3 p-4 text-sm font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                 <div class="flex items-center cursor-pointer" wire:click="sortBy('title')">
                     Title
@@ -51,24 +51,6 @@
                 </a>
             @endforeach
         </div>
+        {{ $likes->links() }}
     </div>
-    {{-- <div class="flex mb-2">
-      @foreach ($likes as $music)
-        <a href="{{ route('music.view', $music) }}" class="mr-3">
-            <div class="w-40 bg-white border border-gray-200 rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 flex flex-col overflow-hidden">
-                <div>
-                    <img class="h-28 w-full object-cover" src="{{ asset('storage/' . $music->image) }}" alt="{{ $music->title }}" />
-                </div>
-                <div class="p-2 flex-1 flex flex-col">
-                    <h5 class="mb-1 text-sm font-semibold tracking-tight text-gray-900 dark:text-white truncate">
-                        {{ $music->title }}
-                    </h5>
-                    <p class="text-xs text-gray-600 dark:text-gray-400 truncate">
-                        {{ $music->artist }}
-                    </p>
-                </div>
-            </div>
-        </a>
-      @endforeach
-    </div> --}}
 </div>

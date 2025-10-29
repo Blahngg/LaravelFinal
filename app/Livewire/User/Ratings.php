@@ -31,6 +31,10 @@ class Ratings extends Component
     {
         $this->resetPage(); // reset pagination when filter changes
     }
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     public function openReviewModal($id)
     {
