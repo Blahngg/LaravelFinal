@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="overflow-hidden min-w-max mb-4">
-            <div class="grid grid-cols-3 p-4 text-sm font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                <div class="flex items-center cursor-pointer" wire:click="sortBy('title')">
+            <x-tables.user-table-header-row class="grid-cols-3">
+                <div class="cursor-pointer" wire:click="sortBy('title')">
                     Title
                     <x-tables.header-direction field="title" :sortField="$sortField" :sortDirection="$sortDirection"/>
                 </div>
@@ -29,25 +29,22 @@
                     Date Added
                     <x-tables.header-direction field="created_at" :sortField="$sortField" :sortDirection="$sortDirection"/>
                 </div>
-            </div>
+            </x-tables.user-table-header-row>
             @foreach ($likes as $music)
                 <a href="{{ route('music.view', $music) }}" class="">
-                    <div class="grid grid-cols-3 px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700 hover:bg-gray-700">
-                        <div class="flex items-center space-x-3 text-gray-800 dark:text-gray-100">
-                            <img src="{{ asset('storage/' . $music->image) }}"
-                                alt="{{ $music->title }}"
-                                class="w-10 h-10 object-cover rounded-md shadow-sm border border-gray-200 dark:border-gray-700">
-                            <span class="text-sm font-medium truncate max-w-[150px]">
+                    <x-tables.user-table-row-link class="grid-cols-3 hover:bg-gray-700">
+                        <x-tables.user-table-title-cell 
+                            :image="$music->image" 
+                            :title="$music->title">
                                 {{ $music->title }}
-                            </span>
-                        </div>
-                        <div class="text-gray-500 dark:text-gray-400 flex items-center">
+                        </x-tables.user-table-title-cell>
+                        <x-tables.user-table-cell>
                             {{ $music->artist }}
-                        </div>
-                        <div class="text-gray-500 dark:text-gray-400 flex items-center">
+                        </x-tables.user-table-cell>
+                        <x-tables.user-table-cell>
                             {{ $music->pivot->created_at->format('M d, Y') }}
-                        </div>
-                    </div>
+                        </x-tables.user-table-cell>
+                    </x-tables.user-table-row-link>
                 </a>
             @endforeach
         </div>
