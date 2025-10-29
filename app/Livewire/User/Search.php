@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Models\Genre;
 use App\Models\Music;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Layout;
@@ -19,6 +20,7 @@ class Search extends Component
     public $sortDirection = 'desc';
     public $searchFilter = 'title';
     public $searchFilterName = 'Title';
+    public $selectedGenres = [];
     public $showSearchFilter = false;
     public $showSearchResults = false;
 
@@ -30,39 +32,10 @@ class Search extends Component
             $this->showSearchFilter = true;
         }
     }
-    public function focus()
-    {
-        $this->showSearchResults = true;
-    }
-
-    public function blur()
-    {
-        // small delay to allow clicks on results before hiding
-        usleep(100000); // 200ms
-        $this->showSearchResults = false;
-    }
 
     public function changeSearchFilter($filter, $filterName){
         $this->searchFilter = $filter;
         $this->searchFilterName = $filterName;
-    }
-
-    public function findSimilarSong(Music $music){
-
-        // Get the genre IDs of that song
-        $genreIds = $music->genres->pluck('id');
-
-        $this->music = $music;
-
-        $this->similarMusic = Music::whereHas('genres', function ($query) use ($genreIds) {
-            $query->whereIn('genres.id', $genreIds);
-        })
-        ->where('id', '!=', $music->id)
-        ->inRandomOrder()
-        ->take(5)
-        ->get();
-
-        dd($this->similarMusic);
     }
 
     public function sortBy($field)
@@ -79,34 +52,28 @@ class Search extends Component
 
     public function render()
     {
-        $musics = collect();
+        $musics = Music::query();
         $results = collect();
         $musicData = $this->music ?? collect();
+        $genres = Genre::all();
 
         if($this->searchFilter === 'title' && strlen($this->search) > 0){
-            $musics = Music::
-                where('title', 'like', '%'.$this->search.'%')
-                ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(10);
+            $musics->where('title', 'like', '%'.$this->search.'%');
         }
         elseif($this->searchFilter === 'artist' && strlen($this->search) > 0){
-            $musics = Music::
-                where('artist', 'like', '%'.$this->search.'%')
-                ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(10);
-        }
-        elseif($this->searchFilter === 'similar' && strlen($this->search) > 0){
-            $results = Music::
-                where('title', 'like', '%'.$this->search.'%')
-                ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(10);
+            $musics->where('artist', 'like', '%'.$this->search.'%');
         }
 
-        if($this->similarMusic){
-            $musics = $this->similarMusic;
+        if (!empty($this->selectedGenres)) {
+            $musics->whereHas('genres', function ($query) {
+                $query->whereIn('genres.id', $this->selectedGenres);
+            });
         }
+
+        $musics = $musics->orderBy($this->sortField, $this->sortDirection)
+                ->paginate(10);
 
         return view('livewire.pages.user.search')
-            ->with(compact('musics', 'results', 'musicData'));
+            ->with(compact('musics', 'results', 'musicData', 'genres'));
     }
 }

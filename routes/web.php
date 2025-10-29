@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\MusicController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\Socialite\ProviderCallbackController;
+use App\Http\Controllers\Socialite\ProviderRedirectController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Livewire\Music\MusicCreate;
 use App\Livewire\Music\MusicData;
@@ -13,8 +15,12 @@ use App\Livewire\User\Playlist;
 use App\Livewire\User\PlaylistView;
 use App\Livewire\User\Ratings;
 use App\Livewire\User\Search;
+use App\Livewire\User\SimilarMusic;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+
+Route::get('/auth/{provider}/redirect', ProviderRedirectController::class)->name('auth.redirect');
+Route::get('/auth/{provider}/callback', ProviderCallbackController::class)->name('auth.callback');
 
 Route::get('/', [MusicController::class, 'index'])
     ->name('index');
@@ -24,6 +30,9 @@ Route::get('/music/{music}', UserMusicData::class)
 
 Route::get('search', Search::class)
     ->name('search');
+
+Route::get('similar/{music}', SimilarMusic::class)
+    ->name('similar');
 
 Route::middleware('auth')->group(function(){
 

@@ -26,7 +26,7 @@ class MusicCreate extends Component
             'title' => 'required',
             'artist' => 'required',
             'image' => 'required|image',
-            'audio' => 'required|mimes:wav,mpeg',
+            'audio' => 'required|mimetypes:audio/mpeg,audio/wav',
             'selectedGenres' => 'exists:genres,id'
         ]);
 

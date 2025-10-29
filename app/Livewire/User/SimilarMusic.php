@@ -2,26 +2,21 @@
 
 namespace App\Livewire\User;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Music;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('layouts.user')]
-class Likes extends Component
+class SimilarMusic extends Component
 {
     use WithPagination;
-
-    public $search = '';
+    public $music;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
-
-    public function updatingFilter()
-    {
-        $this->resetPage(); // reset pagination when filter changes
+    public function mount(Music $music){
+        $this->music = $music;
     }
-
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -33,19 +28,20 @@ class Likes extends Component
             $this->sortDirection = 'asc';
         }
     }
-
     public function render()
     {
-        $likes = User::findOrFail(Auth::id())
-            ->likes()
-            ->where(function ($query) {
-                $query->where('title', 'like', '%'.$this->search.'%')
-                    ->orWhere('artist', 'like', '%'.$this->search.'%');
-            })
-            ->orderBy($this->sortField, $this->sortDirection)
-            ->paginate(10);
+        $genreIds = $this->music->genres->pluck('id');
+        $music = $this->music;
 
-        return view('livewire.pages.user.likes')
-            ->with(compact('likes'));
+        $musics = $this->music->whereHas('genres', function ($query) use ($genreIds) {
+            $query->whereIn('genres.id', $genreIds);
+        })
+        ->where('id', '!=', $this->music->id)
+        ->inRandomOrder()
+        ->take(5)
+        ->get();
+
+        return view('livewire.pages.user.similar-music')
+            ->with(compact('musics', 'music'));
     }
 }

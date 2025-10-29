@@ -1,41 +1,42 @@
 <div>
     <div class="relative flex flex-col items-center mb-5 bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <img src="{{ asset('storage/' . $music->image) }}"
-                class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-80 md:rounded-none md:rounded-s-lg"  
-                alt="">
-            <div class="flex flex-col justify-between p-4 leading-normal">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $music->title }}</h5>
-                <p class="mb-10 font-normal text-gray-700 dark:text-gray-400">{{ $music->artist }}</p>
-                <audio controls>
-                    <source src="{{ asset('storage/' . $music->audio) }}" type="audio/ogg">
-                    <source src="{{ asset('storage/' . $music->audio) }}" type="audio/mpeg">
-                </audio>
-            </div>
-            <div class="absolute bottom-4 right-4">
-                <button wire:click="toggleLike" 
-                    class="border focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-1
-                    {{ $liked
-                        ? 'bg-blue-700 text-white border-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-                        : 'text-blue-700 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
-                    }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                        @if ($liked)
-                            <path 
-                                d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z" />
-                        @else
-                            <path 
-                                d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z" />
-                        @endif
-                    </svg>
-                    <span class="sr-only">Like</span>
-                </button>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" wire:click="openPlaylistModal">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                        <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-                    </svg>
-                <span class="sr-only">Icon description</span>
-                </button>
-            </div>
+        <img src="{{ asset('storage/' . $music->image) }}"
+            class="w-60 h-60 object-cover rounded-t-lg md:rounded-none md:rounded-s-lg"
+            alt="">
+        <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $music->title }}</h5>
+            <p class="mb-10 font-normal text-gray-700 dark:text-gray-400">{{ $music->artist }}</p>
+            <p class="mb-10 font-normal text-gray-700 dark:text-gray-400">Rating: {{ number_format($averageRating, 2) }}</p>
+            <audio controls>
+                <source src="{{ asset('storage/' . $music->audio) }}" type="audio/ogg">
+                <source src="{{ asset('storage/' . $music->audio) }}" type="audio/mpeg">
+            </audio>
+        </div>
+        <div class="absolute bottom-4 right-4">
+            <button wire:click="toggleLike" 
+                class="border focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-1
+                {{ $liked
+                    ? 'bg-blue-700 text-white border-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                    : 'text-blue-700 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
+                }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    @if ($liked)
+                        <path 
+                            d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z" />
+                    @else
+                        <path 
+                            d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z" />
+                    @endif
+                </svg>
+                <span class="sr-only">Like</span>
+            </button>
+            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" wire:click="openPlaylistModal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+                </svg>
+            <span class="sr-only">Icon description</span>
+            </button>
+        </div>
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -58,20 +59,22 @@
             </x-buttons.add-button>
         </div>
         @foreach ($ratings as $rating)
-            <article>
-                <div class="flex items-center mb-4">
-                    <div class="font-medium dark:text-white">
-                        <p>{{ $rating->user->name }}</p>
+            <figure class="max-w-screen-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md p-6 mb-5">
+                <div class="flex items-center mb-4 text-yellow-300">
+                    Rating: {{ $rating->rating }}
+                </div>
+                @if($rating->review)
+                <blockquote>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">"{{ $rating->review }}"</p>
+                </blockquote>
+                @endif
+                <figcaption class="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
+                    <div class="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-300 dark:divide-gray-700">
+                        <cite class="pe-3 font-medium text-gray-900 dark:text-white">{{ $rating->user->name }}</cite>
+                        <cite class="ps-3 text-sm text-gray-500 dark:text-gray-400">{{ $rating->created_at->format('M d, Y') }}</cite>
                     </div>
-                </div>
-                <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-                    <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Rating: {{ $rating->rating }}</h3>
-                </div>
-                <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p>Reviewed on <time datetime="2017-03-03 19:00">{{ $rating->created_at }}</time></p></footer>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                    {{ $rating->review }}
-                </p>
-            </article>
+                </figcaption>
+            </figure>
         @endforeach
         {{ $ratings->links() }}
     </div>

@@ -161,6 +161,8 @@ class MusicData extends Component
 
         $playlists = User::findOrFail(Auth::id())->playlists;
 
+        $averageRating = $music->ratings()->avg('rating');
+
         if($this->filter){
             $ratingsQuery->where('rating', $this->filter);
         }
@@ -169,6 +171,6 @@ class MusicData extends Component
         
 
         return view('livewire.pages.user.music-data')
-            ->with(compact('music', 'ratings', 'playlists'));
+            ->with(compact('music', 'ratings', 'playlists', 'averageRating'));
     }
 }
