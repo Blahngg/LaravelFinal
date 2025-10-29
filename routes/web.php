@@ -24,6 +24,12 @@ Route::get('/auth/{provider}/callback', ProviderCallbackController::class)->name
 
 Route::get('/', [MusicController::class, 'index'])
     ->name('index');
+
+Route::get('topSongs', [MusicController::class, 'topSongs'])
+    ->name('topSongs');
+
+Route::get('topRatedSongs', [MusicController::class, 'topRatedSongs'])
+    ->name('topRatedSongs');
     
 Route::get('/music/{music}', UserMusicData::class)
     ->name('music.view');

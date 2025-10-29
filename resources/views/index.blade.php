@@ -4,7 +4,7 @@
       <h4 class="text-2xl font-bold dark:text-white">Top Songs</h4>
     </div>
     <div class="flex mb-2">
-      @foreach ($musics as $music)
+      @foreach ($top as $music)
         <a href="{{ route('music.view', $music) }}" class="mr-5">
           <div class="w-64 h-75 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex flex-col overflow-hidden">
               <div>
@@ -21,7 +21,7 @@
           </div>
         </a>
       @endforeach
-      <a href="" class="mr-7">
+      <a href="{{ route('topSongs') }}" class="mr-7">
         <div class="w-27 h-75 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex flex-col overflow-hidden">
             <div>
                 <img class="h-40 w-full object-cover" src="{{ asset('storage/' . $music->image) }}" alt="{{ $music->title }}" />
@@ -42,10 +42,10 @@
   </div>
   <div>
     <div class="mb-2">
-      <h4 class="text-2xl font-bold dark:text-white">Trending Songs</h4>
+      <h4 class="text-2xl font-bold dark:text-white">Top Rated Songs</h4>
     </div>
     <div class="flex mb-2">
-      @foreach ($musics as $music)
+      @foreach ($rated as $music)
         <a href="{{ route('music.view', $music) }}" class="mr-5">
           <div class="w-64 h-75 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex flex-col overflow-hidden">
               <div>
@@ -62,7 +62,7 @@
           </div>
         </a>
       @endforeach
-      <a href="" class="mr-7">
+      <a href="{{ route('topRatedSongs') }}" class="mr-7">
         <div class="w-27 h-75 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex flex-col overflow-hidden">
             <div>
                 <img class="h-40 w-full object-cover" src="{{ asset('storage/' . $music->image) }}" alt="{{ $music->title }}" />
