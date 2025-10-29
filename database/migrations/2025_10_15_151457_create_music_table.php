@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('music', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('artist');
+            $table->string('image');
+            $table->string('audio');
+            $table->integer('listens')->default(0);
             $table->timestamps();
         });
     }

@@ -42,7 +42,28 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_admin' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    public function likes(){
+        return $this->belongsToMany(Music::class,'likes')
+            ->withTimestamps();
+    }
+
+    public function playlists(){
+        return $this->hasMany(
+            Playlist::class, 
+            'user_id', 
+            'id');
+    }
+
+    public function ratings(){
+        return $this->hasMany(
+            Rating::class,
+            'user_id',
+            'id'
+        );
     }
 }
